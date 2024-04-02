@@ -10,3 +10,18 @@ This is a Python weather application that fetches current weather data using the
 - Handles invalid location inputs gracefully
   
 - ## Screenshots
+- ### Sunset
+![Amsterdam sunset ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Amsterdam.png)
+
+### Early Morning
+![Auckland Early Morning ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Auckland.png)
+
+### Night
+![Karachi night](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Karachi.png)
+
+### Evening
+![London Evening](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/London.png)
+
+### Day
+![NewYork Day](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/New%20York.png)
+
