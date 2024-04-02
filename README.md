@@ -13,15 +13,15 @@ This is a Python weather application that fetches current weather data using the
 - ### Sunset
 ![Amsterdam sunset ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Amsterdam.png)
 
-### Early Morning
+- ### Early Morning
 ![Auckland Early Morning ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Auckland.png)
 
-### Night
+- ### Night
 ![Karachi night](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Karachi.png)
 
-### Evening
+- ### Evening
 ![London Evening](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/London.png)
 
-### Day
+- ### Day
 ![NewYork Day](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/New%20York.png)
 
