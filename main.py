@@ -35,7 +35,6 @@ def fetch_display_weather(city1):
         weather_data = requests.get(
             f"https://api.openweathermap.org/data/2.5/weather?q={city2}&units=imperial&APPID={api_key}")
         data = weather_data.json()
-        print(data)
 
         # if user entered invalid location for that raising custom error so that I can come out of
         # fetch_display_weather function
@@ -128,44 +127,46 @@ def fetch_display_weather(city1):
          .place(relx=0.655, rely=0.2))
         (Label(master=main_frame, text=weather, bg=frame_colour, fg="white", font=("Arial", 40))
          .place(relx=0.5, rely=0.42, anchor=CENTER))
+        (Label(master=main_frame, text=description, bg=frame_colour, fg="white", font=("Arial", 18))
+         .place(relx=0.5, rely=0.478, anchor=CENTER))
         (Label(master=main_frame, text=f"{current_day[:3]}  {temp_min}°/{temp_max}°", bg=frame_colour, fg="white",
-               font=("Arial", 16)).place(relx=0.5, rely=0.48, anchor=CENTER))
+               font=("Arial", 16)).place(relx=0.5, rely=0.532, anchor=CENTER))
         (Label(master=main_frame, text="feels like", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.55))
+               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.575))
         (Label(master=main_frame, text=f"{feels_like}°F", bg=frame_colour, fg="white",
-               font=("Arial", 15)).place(relx=0.055, rely=0.6))
+               font=("Arial", 15)).place(relx=0.055, rely=0.625))
         (Label(master=main_frame, text=f"{wind_direction_cardinal} wind", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.573, anchor=CENTER))
+               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.598, anchor=CENTER))
         (Label(master=main_frame, text=f"{wind_speed}mi/h {wind_direction_deg}°", bg=frame_colour, fg="white",
-               font=("Arial", 15)).place(relx=0.5, rely=0.621, anchor=CENTER))
+               font=("Arial", 15)).place(relx=0.5, rely=0.646, anchor=CENTER))
         (Label(master=main_frame, text="Humidity", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.755, rely=0.55))
+               font=("Arial", 15, "bold")).place(relx=0.755, rely=0.575))
         (Label(master=main_frame, text=f"{humidity}%", bg=frame_colour, fg="white",
-               font=("Arial", 15)).place(relx=0.81, rely=0.6))
+               font=("Arial", 15)).place(relx=0.81, rely=0.625))
         (Label(master=main_frame, text="Visibility", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.67))
+               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.695))
         (Label(master=main_frame, text=visibility, bg=frame_colour, fg="white",
-               font=("Arial", 15)).place(relx=0.042, rely=0.72))
+               font=("Arial", 15)).place(relx=0.042, rely=0.745))
         (Label(master=main_frame, text="Air Pressure", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.693, anchor=CENTER))
+               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.718, anchor=CENTER))
         (Label(master=main_frame, text=f"{air_pressure}hPa", bg=frame_colour, fg="white",
-               font=("Arial", 15)).place(relx=0.5, rely=0.741, anchor=CENTER))
+               font=("Arial", 15)).place(relx=0.5, rely=0.766, anchor=CENTER))
         (Label(master=main_frame, text="Dew Point", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.735, rely=0.67))
+               font=("Arial", 15, "bold")).place(relx=0.735, rely=0.695))
         (Label(master=main_frame, text=dew_point, bg=frame_colour, fg="white", font=("Arial", 15))
-         .place(relx=0.825, rely=0.72))
+         .place(relx=0.825, rely=0.745))
         (Label(master=main_frame, text="Sunrise", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.79))
+               font=("Arial", 15, "bold")).place(relx=0.02, rely=0.815))
         (Label(master=main_frame, text=sunrise_time, bg=frame_colour, fg="white", font=("Arial", 15))
-         .place(relx=0.02, rely=0.84))
+         .place(relx=0.02, rely=0.865))
         (Label(master=main_frame, text="Cloud Cover%", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.813, anchor=CENTER))
+               font=("Arial", 15, "bold")).place(relx=0.5, rely=0.838, anchor=CENTER))
         (Label(master=main_frame, text=f"{cloud_cover}%", bg=frame_colour, fg="white", font=("Arial", 15))
-         .place(relx=0.5, rely=0.861, anchor=CENTER))
+         .place(relx=0.5, rely=0.886, anchor=CENTER))
         (Label(master=main_frame, text="Sunset", bg=frame_colour, fg="white",
-               font=("Arial", 15, "bold")).place(relx=0.795, rely=0.79))
+               font=("Arial", 15, "bold")).place(relx=0.795, rely=0.815))
         (Label(master=main_frame, text=sunset_time, bg=frame_colour, fg="white", font=("Arial", 15))
-         .place(relx=0.765, rely=0.84))
+         .place(relx=0.765, rely=0.865))
 
     # Clear previous widgets
     for widget in root.winfo_children():
@@ -236,8 +237,6 @@ root.iconphoto(True, icon)
 # fetching location
 try:
     response = requests.get("https://ipinfo.io")
-    print(response.status_code)
-    print(response.content)
     location_data = response.json()
     city = location_data['city']
     fetch_display_weather(city)
