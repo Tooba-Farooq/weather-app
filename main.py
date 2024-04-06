@@ -7,66 +7,56 @@ from PIL import Image, ImageTk
 import math
 
 # Initializing global variables
-current_time = "00:00 AM"
-data = {}
-current_day = ""
-bg_img = None
 name = None
 
 
 # Function to perform all tasks from fetching data to displaying it
 def fetch_display_weather(city1):
-    global bg_img
-    global current_time
     global name
 
-    # Custom exception class for data not fetched
+    # Custom exception class for local_data not fetched
     class DataNotFetchedError(Exception):
         pass
 
     # Function for fetching weather details
     def weather_details(city2):
-        global current_time
-        global data
-        global current_day
 
-        # Fetching weather data from openweathermap
+        # Fetching weather local_data from openweathermap
         api_key = "96220e7ccb58a16f88ac9d466101e661"
         weather_data = requests.get(
             f"https://api.openweathermap.org/data/2.5/weather?q={city2}&units=imperial&APPID={api_key}")
-        data = weather_data.json()
+        local_data = weather_data.json()
 
         # if user entered invalid location for that raising custom error so that I can come out of
         # fetch_display_weather function
-        if not data or data["cod"] != 200:
+        if not local_data or local_data["cod"] != 200:
             raise DataNotFetchedError("Data not fetched")
 
         # Function for finding out the correct time of given city
         def calculating_current_time():
-            timestamp = data['dt']
-            timezone_offset = data['timezone']
+            timestamp = local_data['dt']
+            timezone_offset = local_data['timezone']
             timezone = pytz.FixedOffset(timezone_offset / 60)
             dt = datetime.fromtimestamp(timestamp, timezone)
             return dt
 
-        # Defining current_time and current_day
-        current_time = calculating_current_time().strftime('%I:%M %p')
-        current_day = calculating_current_time().strftime("%A")
+        # Defining current_time and local_current_day
+        local_current_time = calculating_current_time().strftime('%I:%M %p')
+        local_current_day = calculating_current_time().strftime("%A")
+        return local_current_time, local_current_day, local_data
 
     # Function for setting up background images
     def defining_background_images(bg_image):
-        global bg_img
         time_image = Image.open(bg_image)
         image_resized = time_image.resize((root.winfo_screenwidth(), root.winfo_screenheight()), Image.LANCZOS)
         tk_time_image = ImageTk.PhotoImage(image_resized)
-        bg_img = Label(master=root, image=tk_time_image)
-        bg_img.pack(fill=BOTH, expand=True)
-        bg_img.image = tk_time_image
+        local_bg_img = Label(master=root, image=tk_time_image)
+        local_bg_img.pack(fill=BOTH, expand=True)
+        local_bg_img.image = tk_time_image
+        return local_bg_img
 
     # Function for defining variables and placing them in labels
-    def labels_variables():
-        global data
-        global current_day
+    def labels_variables(local_current_time, local_current_day, local_data):
         global name
 
         # function to convert fetched wind direction which is in degrees to cardinal
@@ -96,30 +86,30 @@ def fetch_display_weather(city1):
             return round(dew_point_fahrenheit)
 
         # defining variables
-        name = data["name"]
-        temp = round(data["main"]["temp"])
-        weather = data["weather"][0]["main"]
-        description = data["weather"][0]["description"]
-        temp_max = round(data["main"]["temp_max"])
-        temp_min = round(data["main"]["temp_min"])
-        feels_like = round(data["main"]["feels_like"])
-        wind_speed = round(data["wind"]["speed"], 1)
-        wind_direction_deg = data["wind"]["deg"]
+        name = local_data["name"]
+        temp = round(local_data["main"]["temp"])
+        weather = local_data["weather"][0]["main"]
+        description = local_data["weather"][0]["description"]
+        temp_max = round(local_data["main"]["temp_max"])
+        temp_min = round(local_data["main"]["temp_min"])
+        feels_like = round(local_data["main"]["feels_like"])
+        wind_speed = round(local_data["wind"]["speed"], 1)
+        wind_direction_deg = local_data["wind"]["deg"]
         wind_direction_cardinal = degrees_to_cardinal(wind_direction_deg)
-        humidity = data["main"]["humidity"]
-        visibility = f"{(data["visibility"]) / 1000}km"
-        air_pressure = data["main"]["pressure"]
+        humidity = local_data["main"]["humidity"]
+        visibility = f"{(local_data["visibility"]) / 1000}km"
+        air_pressure = local_data["main"]["pressure"]
         dew_point = f"{calculate_dewpoint(temp, humidity)}°"
-        cloud_cover = data["clouds"]["all"]
-        sunrise_time = convert_unix_timestamp_to_time(data["sys"]["sunrise"])
-        sunset_time = convert_unix_timestamp_to_time(data["sys"]["sunset"])
+        cloud_cover = local_data["clouds"]["all"]
+        sunrise_time = convert_unix_timestamp_to_time(local_data["sys"]["sunrise"])
+        sunset_time = convert_unix_timestamp_to_time(local_data["sys"]["sunset"])
 
         # putting variables in labels
         (Label(master=main_frame, text=name, bg=frame_colour, fg="white", font=("Arial", 24, "bold"))
          .place(relx=0.5, rely=0.055, anchor=CENTER))
         (Label(master=main_frame, text="Current weather", bg=frame_colour, fg="white", font=("Arial", 11))
          .place(relx=0.5, rely=0.115, anchor=CENTER))
-        (Label(master=main_frame, text=current_time, bg=frame_colour, fg="white", font=("Arial", 18))
+        (Label(master=main_frame, text=local_current_time, bg=frame_colour, fg="white", font=("Arial", 18))
          .place(relx=0.5, rely=0.155, anchor=CENTER))
         (Label(master=main_frame, text=f"{temp}", bg=frame_colour, fg="white", font=("Times New Roman", 100))
          .place(relx=0.5, rely=0.284, anchor=CENTER))
@@ -129,7 +119,7 @@ def fetch_display_weather(city1):
          .place(relx=0.5, rely=0.42, anchor=CENTER))
         (Label(master=main_frame, text=description, bg=frame_colour, fg="white", font=("Arial", 18))
          .place(relx=0.5, rely=0.478, anchor=CENTER))
-        (Label(master=main_frame, text=f"{current_day[:3]}  {temp_min}°/{temp_max}°", bg=frame_colour, fg="white",
+        (Label(master=main_frame, text=f"{local_current_day[:3]}  {temp_min}°/{temp_max}°", bg=frame_colour, fg="white",
                font=("Arial", 16)).place(relx=0.5, rely=0.532, anchor=CENTER))
         (Label(master=main_frame, text="feels like", bg=frame_colour, fg="white",
                font=("Arial", 15, "bold")).place(relx=0.02, rely=0.575))
@@ -172,9 +162,12 @@ def fetch_display_weather(city1):
     for widget in root.winfo_children():
         widget.destroy()
 
+    #  initializing local_bg_img outside of try block so that I can use it in except block as well
+    bg_img = None
+
     try:
         # Fetch weather details
-        weather_details(city1)
+        current_time, current_day, data = weather_details(city1)
 
         # converting current_time from string to datetime object
         current_time_obj = datetime.strptime(current_time, '%I:%M %p')
@@ -191,19 +184,19 @@ def fetch_display_weather(city1):
 
     # setting background pictures of window and defining colours of frames based on time
         if morning_hours_start <= current_time_obj <= morning_hours_end:
-            defining_background_images("images\\early_morning.png")
+            bg_img = defining_background_images("images\\early_morning.png")
             frame_colour = "#22455d"
         elif day_hours_start <= current_time_obj <= day_hours_end:
-            defining_background_images("images\\noon.png")
+            bg_img = defining_background_images("images\\noon.png")
             frame_colour = "#52a3ba"
         elif evening_hours_start <= current_time_obj <= evening_hours_end:
-            defining_background_images("images\\evening.png")
+            bg_img = defining_background_images("images\\evening.png")
             frame_colour = "#bd6c5e"
         elif sunset_hours_start <= current_time_obj <= sunset_hours_end:
-            defining_background_images("images\\sunset.png")
+            bg_img = defining_background_images("images\\sunset.png")
             frame_colour = "#63393a"
         else:
-            defining_background_images("images\\night.png")
+            bg_img = defining_background_images("images\\night.png")
             frame_colour = "#02041f"
 
     # Create main frame
@@ -211,10 +204,10 @@ def fetch_display_weather(city1):
         main_frame.pack(anchor=CENTER, padx=8, pady=17)
 
     # Place labels with weather details
-        labels_variables()
+        labels_variables(current_time, current_day, data)
 
     except DataNotFetchedError as ex:
-        print("Error fetching weather data:", ex)
+        print("Error fetching weather local_data:", ex)
         print(city1)
         fetch_display_weather(name)  # calling this function again so screen does not go white
         Label(bg_img, text="Invalid locationⓘ", fg="red", font=("Arial", 11)).place(relx=0.9, rely=0.09)
@@ -242,8 +235,8 @@ try:
     fetch_display_weather(city)
 except Exception as e:
     print("Error", f"Failed to fetch location: {e}")
-    customtkinter.CTkLabel(bg_img, text="Your location could not be fetched. However you can search weather of any "
-                                        "location you want",  fg_color="white", text_color="black",
+    customtkinter.CTkLabel(root, text="Your location could not be fetched. However you can search weather of any "
+                                      "location you want",  fg_color="white", text_color="black",
                            font=("Times New Roman", 20)).place(relx=0.2, rely=0.45)
     except_search_bar = customtkinter.CTkEntry(master=root, bg_color="white", border_width=2, border_color="gray",
                                                width=450, placeholder_text="Search", height=50)
