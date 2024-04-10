@@ -8,20 +8,21 @@ This is a Python weather application that fetches current weather data using the
 - Dynamically changes background image and frame color based on the time of day
 - Allows users to search for weather data of any location
 - Handles invalid location inputs gracefully
+- Allow user to do unit conversion
   
 ## Screenshots
 ### Sunset
-![Amsterdam sunset ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Amsterdam.png)
+![Amsterdam sunset ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/sunset.png)
 
 ### Early Morning
-![Auckland Early Morning ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Auckland.png)
+![Auckland Early Morning ](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Early%20morning.png)
 
 ### Night
-![Karachi night](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/Karachi.png)
+![Karachi night](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/night.png)
 
 ### Evening
-![London Evening](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/London.png)
+![London Evening](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/evening.png)
 
 ### Day
-![NewYork Day](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/New%20York.png)
+![NewYork Day](https://github.com/Tooba-Farooq/weather-app/blob/main/Screenshots/day.png)
 
