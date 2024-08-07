@@ -22,7 +22,7 @@ def fetch_display_weather(city1, combobox_value):
     def weather_details(city2):
 
         # Fetching weather local_data from openweathermap
-        api_key = "96220e7ccb58a16f88ac9d466101e661"
+        api_key = ""
         weather_data = requests.get(
             f"https://api.openweathermap.org/data/2.5/weather?q={city2}&units=imperial&APPID={api_key}")
         local_data = weather_data.json()
